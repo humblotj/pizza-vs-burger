@@ -1,0 +1,14 @@
+.star-overflow-hidden {
+    position: absolute;
+    z-index: -20;
+    overflow: hidden;
+    width: 100%;
+}
+
+.rotate-star {
+    position: relative;
+    z-index: -20;
+    width: 90%;
+    max-width: 500px;
+}
+

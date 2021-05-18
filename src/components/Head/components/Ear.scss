@@ -1,0 +1,21 @@
+.ear {
+    width: 25px;
+    height: 40px;
+    border: 5px solid #f2f2ed;
+    background-color: #41339f;
+
+    &.right {
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+    }
+
+    &.left {
+        border-radius: 100px 10px 10px 100px;
+    }
+}
+
+.ear-container {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+}

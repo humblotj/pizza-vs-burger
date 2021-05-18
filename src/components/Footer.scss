@@ -1,0 +1,29 @@
+.footer {
+    display: flex;
+    margin-top: 50px;
+    padding-right: 5vw;
+    padding-left: 5vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    display: flex;
+    padding: 10px 30px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #f2f2ed;
+    border-radius: 100px;
+    transition: all 200ms ease;
+    color: #fff;
+    font-size: 8.5px;
+    line-height: 14px;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: #f2f2ed;
+    color: #41339f;
+}

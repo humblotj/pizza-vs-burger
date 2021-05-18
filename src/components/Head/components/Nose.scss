@@ -1,0 +1,16 @@
+.part-03 {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.nose {
+    width: 26px;
+    height: 15px;
+    border: 3px solid #41339f;
+    border-radius: 100px;
+    background-color: #f2f2ed;
+}

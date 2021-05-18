@@ -1,0 +1,41 @@
+.head-container {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.head {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    width: 150px;
+    height: 230px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    border: 4px solid #f2f2ed;
+    border-radius: 100px;
+}
+
+.hair-and-face {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 100px;
+}
+
+.face {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    align-self: center;
+}
