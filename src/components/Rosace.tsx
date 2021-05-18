@@ -5,7 +5,7 @@ import './Rosace.scss';
 import RosaceImg from '../assets/rosace-02.svg';
 
 const Rosace = () => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLImageElement>(null);
   useEffect(() => {
     const element = ref.current;
     if (!element) {
@@ -18,8 +18,8 @@ const Rosace = () => {
   }, []);
 
   return (
-    <div ref={ref} className="star-overflow-hidden">
-      <img src={RosaceImg} loading="lazy" alt="" className="rotate-star" />
+    <div className="star-overflow-hidden">
+      <img ref={ref} src={RosaceImg} loading="lazy" alt="" className="rotate-star" />
     </div>
   );
 };

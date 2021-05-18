@@ -1,24 +1,38 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
-  MouseEventHandler, ReactNode, useEffect, useState,
+  ReactNode, useEffect, useState,
 } from 'react';
 import { gsap, Linear } from 'gsap';
+import firebase from 'firebase';
 import cx from 'classnames';
 
 import ValidIcon from '../assets/valid-icon.svg';
 import Vote from '../assets/vote.svg';
 
 import './Choice.scss';
+import { db } from '../App';
 
 interface Props {
+  name: string,
   children: ReactNode
 }
 
-const Choice = ({ children }: Props) => {
+const Choice = ({ name, children }: Props) => {
+  const [count, setCount] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(false);
+  const voteRef = db.collection('votes').doc(name);
 
   useEffect(() => {
+    voteRef.get().then(
+      (query: any) => {
+        if (query.exists) {
+          const { count } = query.data();
+          setCount(count);
+        }
+      },
+    );
+
     const votes = document.querySelectorAll('.vote');
 
     gsap.to(votes, {
@@ -72,7 +86,21 @@ const Choice = ({ children }: Props) => {
 
   const toggleFavorite = (e: any) => {
     e.preventDefault();
-    setIsFavorite((isFavorite) => !isFavorite);
+    setIsLoading(true);
+    setIsFavorite((isFavorite) => {
+      Promise.all([voteRef.update({
+        count: firebase.firestore.FieldValue.increment(!isFavorite ? 1 / 2 : -1 / 2),
+      }), new Promise((resolve) => setTimeout(resolve, 1000))]).then(() => setIsLoading(false));
+      return !isFavorite;
+    });
+  };
+
+  const getCount = () => {
+    if (count !== null) {
+      return 100
+      + (count || 0) + (((isFavorite && !isLoading) || (!isFavorite && isLoading)) ? 1 : 0);
+    }
+    return null;
   };
 
   return (
@@ -81,51 +109,62 @@ const Choice = ({ children }: Props) => {
     >
       <div role="list" className="w-dyn-items">
         <div role="listitem" className="collection-item w-dyn-item">
-          <div className="w-embed">
-            <input type="hidden" className="jetboost-list-item" value="" />
-          </div>
-          <div className="jetboost-toggle-favorite-2p72">
-            <div className={cx('item-is-not-favorite', { 'is-hidden': isFavorite })}>
-              <a
-                href=""
-                onClick={toggleFavorite}
-                className="choice-link-block w-inline-block"
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
+          {count !== null
+          && (
+          <>
+            <div className="w-embed">
+              <input type="hidden" className="jetboost-list-item" value="" />
+            </div>
+            <div className="jetboost-toggle-favorite-2p72">
+              <div className={cx('item-is-not-favorite', { 'is-hidden': isFavorite || isLoading })}>
+                <a
+                  href=""
+                  onClick={toggleFavorite}
+                  className="choice-link-block w-inline-block"
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                >
+                  <h2 className="emoji">{children}</h2>
+                </a>
+              </div>
+              <div
+                className={cx('item-is-favorite', { 'is-hidden': !isFavorite || isLoading })}
               >
-                <h2 className="emoji">{children}</h2>
-              </a>
+                <a
+                  href=""
+                  onClick={toggleFavorite}
+                  className="choice-link-block favorite w-inline-block"
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                >
+                  <img
+                    src={ValidIcon}
+                    loading="lazy"
+                    alt="Vote valid icon"
+                    className="valid-icon"
+                  />
+                </a>
+              </div>
+              <div className={cx('saving-favorite', { 'is-hidden': !isLoading })}>
+                <div className="vote-text">Saving</div>
+              </div>
+              <img
+                src={Vote}
+                loading="lazy"
+                alt=""
+                className="vote"
+              />
             </div>
-            <div
-              className={cx('item-is-favorite', { 'is-hidden': !isFavorite })}
-            >
-              <a
-                href=""
-                onClick={toggleFavorite}
-                className="choice-link-block favorite w-inline-block"
-              >
-                <img
-                  src={ValidIcon}
-                  loading="lazy"
-                  alt="Vote valid icon"
-                  className="valid-icon"
-                />
-              </a>
+            <div className="vote-result-container">
+              <div className="vote-text jetboost-item-total-favorites-2p72" />
+              <div className="vote-text">
+                {getCount()}
+                {' '}
+                votes
+              </div>
             </div>
-            <div className={cx('saving-favorite', { 'is-hidden': !isLoading })}>
-              <div className="vote-text">Saving</div>
-            </div>
-            <img
-              src={Vote}
-              loading="lazy"
-              alt=""
-              className="vote"
-            />
-          </div>
-          <div className="vote-result-container">
-            <div className="vote-text jetboost-item-total-favorites-2p72" />
-            <div className="vote-text">votes</div>
-          </div>
+          </>
+          )}
         </div>
       </div>
     </div>

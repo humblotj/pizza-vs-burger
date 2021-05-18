@@ -1,5 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
+import firebase from 'firebase';
+import 'firebase/firestore';
+import 'firebase/analytics';
 
 import './App.css';
 import Head from './components/Head/Head';
@@ -8,6 +12,17 @@ import Rosace from './components/Rosace';
 import Title from './components/Title';
 import Choice from './components/Choice';
 import Footer from './components/Footer';
+
+const config = JSON.parse(process.env.REACT_APP_API_KEY as any);
+
+firebase.initializeApp({
+  ...config,
+});
+export const db = firebase.firestore();
+
+if (process.env.NODE_ENV !== 'development') {
+  firebase.analytics();
+}
 
 function App() {
   const { height, width } = useWindowDimensions();
@@ -80,8 +95,8 @@ function App() {
       <div className="header" />
       <div className="main-container">
         <div className="choice-container">
-          <Choice>🍕</Choice>
-          <Choice>🍔</Choice>
+          <Choice name="pizza">🍕</Choice>
+          <Choice name="burger">🍔</Choice>
         </div>
         <div className="container">
           <Head />
