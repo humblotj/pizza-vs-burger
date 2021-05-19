@@ -44,7 +44,7 @@ function App() {
     const earLeft = document.querySelector('.ear-container.left');
     const earRight = document.querySelector('.ear-container.right');
 
-    document.addEventListener('mousemove', (e) => {
+    const moveHead = (e: MouseEvent) => {
       const { pageX, pageY } = e;
       const xPercent = -1 + (pageX * 2) / width;
       const yPercent = -1 + (pageY * 2) / height;
@@ -87,7 +87,11 @@ function App() {
       });
       gsap.set(earLeft, { x: `${25 * (1 + xPercent)}%` });
       gsap.set(earRight, { x: `${-25 * (1 - xPercent)}%` });
-    });
+    };
+
+    document.addEventListener('mousemove', moveHead);
+
+    return () => document.removeEventListener('mousemove', moveHead);
   }, []);
 
   return (
