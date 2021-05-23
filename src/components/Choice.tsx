@@ -89,7 +89,7 @@ const Choice = ({ name, children }: Props) => {
     setIsLoading(true);
     setIsFavorite((isFavorite) => {
       Promise.all([voteRef.update({
-        count: firebase.firestore.FieldValue.increment(!isFavorite ? 1 / 2 : -1 / 2),
+        count: firebase.firestore.FieldValue.increment(!isFavorite ? 1 : -1),
       }), new Promise((resolve) => setTimeout(resolve, 1000))]).then(() => setIsLoading(false));
       return !isFavorite;
     });
