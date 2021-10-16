@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
-import firebase from 'firebase';
-import 'firebase/firestore';
-import 'firebase/analytics';
+import { initializeApp, FirebaseOptions } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import { getFirestore } from 'firebase/firestore/lite';
 
 import './App.css';
 import Head from './components/Head/Head';
@@ -13,16 +13,14 @@ import Title from './components/Title';
 import Choice from './components/Choice';
 import Footer from './components/Footer';
 
-const config = JSON.parse(process.env.REACT_APP_API_KEY as any);
-
-firebase.initializeApp({
-  ...config,
-});
-export const db = firebase.firestore();
-
+const firebaseConfig: FirebaseOptions = JSON.parse(
+  process.env.REACT_APP_API_KEY || '',
+);
+initializeApp(firebaseConfig);
 if (process.env.NODE_ENV !== 'development') {
-  firebase.analytics();
+  getAnalytics();
 }
+export const db = getFirestore();
 
 function App() {
   const { height, width } = useWindowDimensions();

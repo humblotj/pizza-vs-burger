@@ -3,7 +3,9 @@ import {
   ReactNode, useEffect, useState,
 } from 'react';
 import { gsap, Linear } from 'gsap';
-import firebase from 'firebase';
+import {
+  doc, getDoc, updateDoc, increment,
+} from 'firebase/firestore/lite';
 import cx from 'classnames';
 
 import ValidIcon from '../assets/valid-icon.svg';
@@ -21,10 +23,10 @@ const Choice = ({ name, children }: Props) => {
   const [count, setCount] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const voteRef = db.collection('votes').doc(name);
+  const voteRef = doc(db, 'votes', name);
 
   useEffect(() => {
-    voteRef.get().then(
+    getDoc(voteRef).then(
       (query: any) => {
         if (query.exists) {
           const { count } = query.data();
@@ -88,8 +90,8 @@ const Choice = ({ name, children }: Props) => {
     e.preventDefault();
     setIsLoading(true);
     setIsFavorite((isFavorite) => {
-      Promise.all([voteRef.update({
-        count: firebase.firestore.FieldValue.increment(!isFavorite ? 1 : -1),
+      Promise.all([updateDoc(voteRef, {
+        count: increment(!isFavorite ? 1 : -1),
       }), new Promise((resolve) => setTimeout(resolve, 1000))]).then(() => setIsLoading(false));
       return !isFavorite;
     });
