@@ -22,7 +22,12 @@ const Eye = () => {
     <div className="eye-container">
       <div ref={ref} className="eye">
         <div className="pupil" />
-        <img src={HeartPink} loading="lazy" alt="heart-pupil" className="heart-pupil" />
+        <img
+          src={HeartPink}
+          loading="lazy"
+          alt="heart-pupil"
+          className="heart-pupil"
+        />
       </div>
     </div>
   );

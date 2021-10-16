@@ -21,7 +21,6 @@ const head = () => (
       </div>
     </div>
     <Ear direction="right" />
-
   </div>
 );
 

@@ -1,7 +1,7 @@
 import './Ear.scss';
 
 interface Props {
-    direction: 'left'| 'right'
+  direction: 'left' | 'right';
 }
 
 const Ear = ({ direction }: Props) => (

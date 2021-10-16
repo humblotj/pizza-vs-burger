@@ -13,13 +13,22 @@ const Rosace = () => {
     }
 
     gsap.to(element, {
-      rotate: 360, repeat: -1, duration: 35, ease: Linear.easeNone,
+      rotate: 360,
+      repeat: -1,
+      duration: 35,
+      ease: Linear.easeNone,
     });
   }, []);
 
   return (
     <div className="star-overflow-hidden">
-      <img ref={ref} src={RosaceImg} loading="lazy" alt="" className="rotate-star" />
+      <img
+        ref={ref}
+        src={RosaceImg}
+        loading="lazy"
+        alt=""
+        className="rotate-star"
+      />
     </div>
   );
 };

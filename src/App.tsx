@@ -63,8 +63,12 @@ function App() {
         x: `${20 * xPercent}%`,
         y: yPercent > 0 ? 0 : `${10 * yPercent}%`,
       });
-      gsap.set(eyebrowLeft, { rotationZ: yPercent > 0 ? 0 : `${40 * yPercent}%` });
-      gsap.set(eyebrowRight, { rotationZ: yPercent > 0 ? 0 : `${-40 * yPercent}%` });
+      gsap.set(eyebrowLeft, {
+        rotationZ: yPercent > 0 ? 0 : `${40 * yPercent}%`,
+      });
+      gsap.set(eyebrowRight, {
+        rotationZ: yPercent > 0 ? 0 : `${-40 * yPercent}%`,
+      });
       gsap.set(head, {
         x: `${10 * xPercent}%`,
         y: `${10 * yPercent}%`,
@@ -90,7 +94,7 @@ function App() {
     document.addEventListener('mousemove', moveHead);
 
     return () => document.removeEventListener('mousemove', moveHead);
-  }, []);
+  }, [height, width]);
 
   return (
     <div className="section">
